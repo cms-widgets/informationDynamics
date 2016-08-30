@@ -157,6 +157,7 @@ public class WidgetInfo implements Widget, PreProcessWidget {
 
         //2、取数据源列表
         List<Category> dataSources = cmsDataSourceService.findByParent_Serial(serial);
+        variables.put(DATA_SOURCE, dataSources); //数据源列表
         if (dataSources != null && !dataSources.isEmpty()) {
 
             String requestCid = parameters != null ? parameters.get(Parameter_CID) : null;
@@ -173,12 +174,14 @@ public class WidgetInfo implements Widget, PreProcessWidget {
             } else
                 pageNumber = 1;
 
+
             String requestSize = parameters != null ? parameters.get(SIZE) : null;
             int pageSize;
             if (requestSize != null) {
                 pageSize = NumberUtils.parseNumber(requestSize, Integer.class);
             } else
                 pageSize = NumberUtils.parseNumber(properties.get(SIZE).toString(), Integer.class);
+
 
             //3、使用请求参数获取数据列表
             Page<Article> page = cmsDataSourceService.findArticleContent(category.getSerial(), pageNumber, pageSize);
@@ -196,10 +199,10 @@ public class WidgetInfo implements Widget, PreProcessWidget {
                     variables.put("contentURI", variables.get("uri"));
                 }
             }
-
+            variables.put("pageNumber", pageNumber);
             variables.put(DATA_LIST, page);
-            variables.put(DATA_SOURCE, dataSources); //数据源列表
             variables.put(CATEGORY, category);//当前选择的数据源
-        }
+        } else
+            variables.put(DATA_LIST, null);
     }
 }

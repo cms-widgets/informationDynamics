@@ -31,7 +31,7 @@
             </ul>
         </div>
         <div class="col-sm-12 information-list-bottom">
-            <ul class="pagination" th:if="${dataList}!=null">
+            <ul class="pagination" th:if="${dataList!=null}">
                 <li class="prev" th:if="${dataList.hasPrevious()}">
                     <a rel="prev" th:href="@{/${uri}(cid=${category.id},pageNum=${dataList.getNumber()-1})}">上一页</a>
                 </li>
@@ -43,7 +43,9 @@
                     <a th:text="${dataList.getNumber()+2}">5</a>
                 </li>
                 <li th:if="${dataList.getTotalPages()<5}">
-                    <a th:each="index:${dataList.getTotalPages()}" th:href="@{/${uri}(cid=${category.id},pageNum=${index})}"
+                    <a th:class="${dataList.getNumber()==pageNumber}?'active':''"
+                       th:each="index:${dataList.getTotalPages()}"
+                       th:href="@{/${uri}(cid=${category.id},pageNum=${index})}"
                        th:text="${index}">
                     </a>
                 </li>

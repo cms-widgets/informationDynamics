@@ -33,7 +33,6 @@ public class TestWidgetInfo extends WidgetTest {
     @Override
     protected void editorWork(Widget widget, WebElement editor, Supplier<Map<String, Object>> currentWidgetProperties) {
         Map map = currentWidgetProperties.get();
-        //todo
     }
 
     @Override
