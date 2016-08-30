@@ -130,16 +130,18 @@ public class WidgetInfo implements Widget, PreProcessWidget {
 
 
     @Override
-    public ComponentProperties defaultProperties(ResourceService resourceService) throws IOException {
+    public ComponentProperties defaultProperties(ResourceService resourceService) throws IOException, IllegalStateException {
         ComponentProperties properties = new ComponentProperties();
         // 随意找一个数据源,如果没有。那就没有。。
         CMSDataSourceService cmsDataSourceService = CMSContext.RequestContext().getWebApplicationContext()
                 .getBean(CMSDataSourceService.class);
         List<Category> categories = cmsDataSourceService.findArticleCategory();
         if (categories.isEmpty()) {
-            throw new IllegalStateException("请至少添加一个数据源再使用这个控件。");
+            properties.put(SERIAL, "");
+//            throw new IllegalStateException("请至少添加一个数据源再使用这个控件。");
+        } else {
+            properties.put(SERIAL, categories.get(0).getSerial());
         }
-        properties.put(SERIAL, categories.get(0).getSerial());
         properties.put(SIZE, 10);
         properties.put(TITLE, "数据源列表");
         return properties;
