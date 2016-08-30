@@ -148,8 +148,10 @@ public class WidgetInfo implements Widget, PreProcessWidget {
     @Override
     public void prepareContext(WidgetStyle style, ComponentProperties properties, Map<String, Object> variables
             , Map<String, String> parameters) {
-        CategoryRepository categoryRepository = CMSContext.RequestContext().getWebApplicationContext().getBean(CategoryRepository.class);
-        CMSDataSourceService cmsDataSourceService = CMSContext.RequestContext().getWebApplicationContext().getBean(CMSDataSourceService.class);
+        CategoryRepository categoryRepository = CMSContext.RequestContext().getWebApplicationContext()
+                .getBean(CategoryRepository.class);
+        CMSDataSourceService cmsDataSourceService = CMSContext.RequestContext().getWebApplicationContext()
+                .getBean("cmsDataSourceService", CMSDataSourceService.class);
         //1、取context参数pageNum,serial
         String serial = (String) properties.get(WidgetInfo.SERIAL);
 
@@ -178,15 +180,8 @@ public class WidgetInfo implements Widget, PreProcessWidget {
             } else
                 pageSize = NumberUtils.parseNumber(properties.get(SIZE).toString(), Integer.class);
 
-
             //3、使用请求参数获取数据列表
             Page<Article> page = cmsDataSourceService.findArticleContent(category.getSerial(), pageNumber, pageSize);
-            if (page!=null && page.hasPrevious()){
-                log.error("================================");
-            }else {
-                log.error("--------------------------------");
-            }
-            variables.put(DATA_LIST, page);
             String contentSerial = (String) properties.get(ContentSerial);
             if (contentSerial != null) {
                 PageInfo contentPage = cmsDataSourceService.findPageInfoContent(contentSerial);
@@ -201,6 +196,8 @@ public class WidgetInfo implements Widget, PreProcessWidget {
                     variables.put("contentURI", variables.get("uri"));
                 }
             }
+
+            variables.put(DATA_LIST, page);
             variables.put(DATA_SOURCE, dataSources); //数据源列表
             variables.put(CATEGORY, category);//当前选择的数据源
         }
