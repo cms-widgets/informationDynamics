@@ -136,12 +136,9 @@ public class WidgetInfo implements Widget, PreProcessWidget {
         CMSDataSourceService cmsDataSourceService = CMSContext.RequestContext().getWebApplicationContext()
                 .getBean(CMSDataSourceService.class);
         List<Category> categories = cmsDataSourceService.findArticleCategory();
-        if (categories.isEmpty()) {
-            properties.put(SERIAL, "");
-//            throw new IllegalStateException("请至少添加一个数据源再使用这个控件。");
-        } else {
-            properties.put(SERIAL, categories.get(0).getSerial());
-        }
+        if (categories.isEmpty())
+            throw new IllegalStateException("请至少添加一个数据源再使用这个控件。");
+        properties.put(SERIAL, categories.get(0).getSerial());
         properties.put(SIZE, 10);
         properties.put(TITLE, "数据源列表");
         return properties;
