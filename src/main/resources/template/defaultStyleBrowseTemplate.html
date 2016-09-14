@@ -23,7 +23,7 @@
             </div>
             <ul class="list-unstyled information-list-right-body">
                 <li th:each="article:${dataList}">
-                    <a th:href="@{/${contentURI}/{id}(id=${article.id})}" class="clearfix">
+                    <a th:href="@{/${contentURI}/{contentSerial}(contentSerial=${article.serial})}" class="clearfix">
                         <span class="information-list-items-tittle" th:text="${article.title}">标题</span>
                         <span class="information-list-items-time" th:text="${{article.createTime}}">时间</span>
                     </a>

@@ -9,9 +9,12 @@
 
 package com.huotu.hotcms.widget.informationDynamics;
 
+import com.huotu.hotcms.service.common.ContentType;
+import com.huotu.hotcms.service.common.PageType;
 import com.huotu.hotcms.service.entity.Article;
 import com.huotu.hotcms.service.entity.Category;
 import com.huotu.hotcms.service.exception.PageNotFoundException;
+import com.huotu.hotcms.service.repository.ArticleRepository;
 import com.huotu.hotcms.service.repository.CategoryRepository;
 import com.huotu.hotcms.widget.CMSContext;
 import com.huotu.hotcms.widget.ComponentProperties;
@@ -31,10 +34,12 @@ import org.springframework.http.MediaType;
 import org.springframework.util.NumberUtils;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 
 
 /**
@@ -136,11 +141,59 @@ public class WidgetInfo implements Widget, PreProcessWidget {
         CMSDataSourceService cmsDataSourceService = CMSContext.RequestContext().getWebApplicationContext()
                 .getBean(CMSDataSourceService.class);
         List<Category> categories = cmsDataSourceService.findArticleCategory();
-        if (categories.isEmpty())
-            throw new IllegalStateException("请至少添加一个数据源再使用这个控件。");
-        properties.put(SERIAL, categories.get(0).getSerial());
+        if (categories.isEmpty()) {
+            CategoryRepository categoryRepository = CMSContext.RequestContext().getWebApplicationContext()
+                    .getBean(CategoryRepository.class);
+            ArticleRepository articleRepository = CMSContext.RequestContext().getWebApplicationContext()
+                    .getBean(ArticleRepository.class);
+            Category category = new Category();
+            category.setContentType(ContentType.Article);
+            category.setName("父级");
+            category.setSerial(UUID.randomUUID().toString());
+            category.setSite(CMSContext.RequestContext().getSite());
+            categoryRepository.save(category);
+            properties.put(SERIAL, category.getSerial());
+
+            Category category1 = new Category();
+            category1.setContentType(ContentType.Article);
+            category1.setName("子级1");
+            category1.setSerial(UUID.randomUUID().toString());
+            category1.setSite(CMSContext.RequestContext().getSite());
+            category1.setParent(category);
+            categoryRepository.save(category1);
+
+            Category category2 = new Category();
+            category2.setContentType(ContentType.Article);
+            category2.setName("子级2");
+            category2.setSerial(UUID.randomUUID().toString());
+            category2.setSite(CMSContext.RequestContext().getSite());
+            category2.setParent(category);
+            categoryRepository.save(category2);
+
+            Article article = new Article();
+            article.setDeleted(false);
+            article.setTitle("文章标题");
+            article.setCategory(category1);
+            article.setContent("文章内容");
+            article.setCreateTime(LocalDateTime.now());
+            article.setSerial(UUID.randomUUID().toString());
+            articleRepository.save(article);
+
+            Article article2 = new Article();
+            article2.setDeleted(false);
+            article2.setTitle("文章标题");
+            article2.setCategory(category2);
+            article2.setContent("文章内容");
+            article2.setCreateTime(LocalDateTime.now());
+            article2.setSerial(UUID.randomUUID().toString());
+            articleRepository.save(article2);
+
+//            throw new IllegalStateException("请至少添加一个数据源再使用这个控件。");
+        } else {
+            properties.put(SERIAL, categories.get(0).getSerial());
+        }
         properties.put(SIZE, 10);
-        properties.put(TITLE, "数据源列表");
+        properties.put(TITLE, "资讯动态");
         return properties;
     }
 
@@ -203,5 +256,10 @@ public class WidgetInfo implements Widget, PreProcessWidget {
             variables.put(CATEGORY, category);//当前选择的数据源
         } else
             variables.put(DATA_LIST, null);
+    }
+
+    @Override
+    public PageType supportedPageType() {
+        return PageType.Ordinary;
     }
 }

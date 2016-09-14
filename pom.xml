@@ -13,10 +13,15 @@
 
     <groupId>com.huotu.hotcms.widget.informationDynamics</groupId>
     <artifactId>informationDynamics</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
-    <name>A custom Widget</name>
+    <name>informationDynamics</name>
+    <description>
+        这是一个文章列表展示控件，可二级展示，选择一个有子级的文章数据源，会展示子数据源列表，和分页展示子数据源的若干条文章
+        （如：资讯动态）。
+    </description>
+
     <url>https://github.com/huotuinc/CMS</url>
     <organization>
         <name>Hangzhou Hot Technology Co., Ltd.</name>
