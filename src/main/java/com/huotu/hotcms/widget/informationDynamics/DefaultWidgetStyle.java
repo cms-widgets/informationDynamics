@@ -43,7 +43,7 @@ public class DefaultWidgetStyle implements WidgetStyle {
 
     @Override
     public Resource thumbnail() {
-        return new ClassPathResource("/thumbnail/defaultStyleThumbnail.png", getClass().getClassLoader());
+        return new ClassPathResource("/thumbnail/aritcleList.png", getClass().getClassLoader());
     }
 
     @Override

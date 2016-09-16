@@ -80,7 +80,7 @@ public class WidgetInfo implements Widget, PreProcessWidget {
     @Override
     public String name(Locale locale) {
         if (locale.equals(Locale.CHINA)) {
-            return "A custom Widget";
+            return "文章/产品列表";
         }
         return "informationDynamics";
     }
@@ -113,8 +113,8 @@ public class WidgetInfo implements Widget, PreProcessWidget {
     @Override
     public Map<String, Resource> publicResources() {
         Map<String, Resource> map = new HashMap<>();
-        map.put("thumbnail/defaultStyleThumbnail.png"
-                , new ClassPathResource("thumbnail/defaultStyleThumbnail.png", getClass().getClassLoader()));
+        map.put("thumbnail/aritcleList.png"
+                , new ClassPathResource("thumbnail/aritcleList.png", getClass().getClassLoader()));
         map.put("thumbnail/product.png"
                 , new ClassPathResource("thumbnail/product.png", getClass().getClassLoader()));
         return map;
