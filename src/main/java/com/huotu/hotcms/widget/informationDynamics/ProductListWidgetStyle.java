@@ -19,9 +19,9 @@ public class ProductListWidgetStyle implements WidgetStyle {
     @Override
     public String name(Locale locale) {
         if (locale.equals(Locale.CHINA)) {
-            return "bootstrap 风格";
+            return "产品列表";
         }
-        return "bootstrap style Products Style";
+        return "product style";
     }
 
     @Override

@@ -27,16 +27,16 @@ public class DefaultWidgetStyle implements WidgetStyle {
 
     @Override
     public String name(Locale locale) {
-        if (locale.equals(Locale.CHINESE)) {
-            return "bootstrap 风格";
+        if (locale.equals(Locale.CHINA)) {
+            return "文章默认";
         }
-        return "bootstrap style informationDynamics";
+        return "article default";
     }
 
     @Override
     public String description(Locale locale) {
-        if (locale.equals(Locale.CHINESE)) {
-            return "基于bootstrap样式的   ";
+        if (locale.equals(Locale.CHINA)) {
+            return "基于bootstrap样式的 文章列表";
         }
         return "Based on the bootstrap style by informationDynamics";
     }
