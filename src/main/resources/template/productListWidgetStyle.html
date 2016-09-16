@@ -1,0 +1,55 @@
+<!--预览视图-->
+<!--/*@thymesVar id="dataSources" type="java.util.List<com.huotu.hotcms.service.entity.Category>"*/-->
+<!--/*@thymesVar id="uri" type="java.lang.String"*/-->
+<!--/*@thymesVar id="dataList" type="org.springframework.data.domain.Page<com.huotu.hotcms.service.entity.AbstractContent>"*/-->
+<div xmlns:th="http://www.thymeleaf.org" class="information-list information-list-red">
+    <div class="row">
+        <div class="col-sm-12 col-md-3">
+            <ul class="list-unstyled information-list-left-body">
+                <li th:each="cate:${dataSources}" th:class="${cate.serial==category.serial}?'active' :''">
+                    <a th:href="@{/${uri}(cid=${cate.id})}">
+                        <span th:text="${cate.name}">数据源1</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-12 col-md-9 information-list-right">
+            <ul class="list-unstyled information-list-right-body">
+                <li th:each="article:${dataList}">
+                    <a th:href="@{/${contentURI}/{contentSerial}(contentSerial=${article.serial})}" class="clearfix">
+                        <img src="" res:src="${article.thumbUri}">
+                        <span class="information-list-items-tittle" th:text="${article.title}">标题</span>
+                        <span class="information-list-items-time" th:text="${article.description}">内容简介</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-12 information-list-bottom">
+            <ul class="pagination" th:if="${dataList!=null}">
+                <li class="prev" th:if="${dataList.hasPrevious()}">
+                    <a rel="prev" th:href="@{/${uri}(cid=${category.id},pageNum=${dataList.getNumber()-1})}">上一页</a>
+                </li>
+                <li th:if="${ dataList.getNumber()+2<dataList.getTotalPages() and dataList.getNumber()>2 and dataList.getNumber()>5}">
+                    <a th:text="${dataList.getNumber()-2}"></a>
+                    <a th:text="${dataList.getNumber()-1}">2</a>
+                    <a class="active" href="javascript:void(0);" th:text="${dataList.getNumber()}">3</a>
+                    <a th:text="${dataList.getNumber()+1}">4</a>
+                    <a th:text="${dataList.getNumber()+2}">5</a>
+                </li>
+                <li th:if="${dataList.getTotalPages()<5}">
+                    <a th:class="${dataList.getNumber()==pageNumber}?'active':''"
+                       th:each="index:${dataList.getTotalPages()}"
+                       th:href="@{/${uri}(cid=${category.id},pageNum=${index})}"
+                       th:text="${index}">
+                    </a>
+                </li>
+                <li class="next"><a rel="next" href="#" th:if="${dataList.hasNext()}"
+                                    th:href="@{/${uri}(cid=${category.id},pageNum=${dataList.getNumber()+1})}">下一页</a>
+                </li>
+                <li class="total"><a href="javascript:void(0);" th:text="'共'+${dataList.getTotalPages()}+'页'">共1页</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!--/预览视图-->

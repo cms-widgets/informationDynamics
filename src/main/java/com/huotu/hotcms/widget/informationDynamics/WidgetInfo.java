@@ -9,6 +9,7 @@
 
 package com.huotu.hotcms.widget.informationDynamics;
 
+import com.huotu.hotcms.service.common.ArticleSource;
 import com.huotu.hotcms.service.common.ContentType;
 import com.huotu.hotcms.service.common.PageType;
 import com.huotu.hotcms.service.entity.Article;
@@ -86,7 +87,7 @@ public class WidgetInfo implements Widget, PreProcessWidget {
 
     @Override
     public String description(Locale locale) {
-        if (locale.equals(Locale.CHINESE)) {
+        if (locale.equals(Locale.CHINA)) {
             return "这是一个 A custom Widget，你可以对组件进行自定义修改。";
         }
         return "This is a informationDynamics,  you can make custom change the component.";
@@ -99,7 +100,7 @@ public class WidgetInfo implements Widget, PreProcessWidget {
 
     @Override
     public WidgetStyle[] styles() {
-        return new WidgetStyle[]{new DefaultWidgetStyle()};
+        return new WidgetStyle[]{new DefaultWidgetStyle(), new ProductListWidgetStyle()};
     }
 
     @Override
@@ -112,7 +113,10 @@ public class WidgetInfo implements Widget, PreProcessWidget {
     @Override
     public Map<String, Resource> publicResources() {
         Map<String, Resource> map = new HashMap<>();
-        map.put("thumbnail/defaultStyleThumbnail.png", new ClassPathResource("thumbnail/defaultStyleThumbnail.png", getClass().getClassLoader()));
+        map.put("thumbnail/defaultStyleThumbnail.png"
+                , new ClassPathResource("thumbnail/defaultStyleThumbnail.png", getClass().getClassLoader()));
+        map.put("thumbnail/product.png"
+                , new ClassPathResource("thumbnail/product.png", getClass().getClassLoader()));
         return map;
     }
 
@@ -177,6 +181,13 @@ public class WidgetInfo implements Widget, PreProcessWidget {
             article.setContent("文章内容");
             article.setCreateTime(LocalDateTime.now());
             article.setSerial(UUID.randomUUID().toString());
+            article.setCreateTime(LocalDateTime.now());
+            article.setAuthor("system");
+            article.setDescription("文章描述");
+            article.setArticleSource(ArticleSource.ORIGINAL);
+            article.setLauds(120);
+            article.setUnlauds(10);
+            article.setScans(130);
             articleRepository.save(article);
 
             Article article2 = new Article();
@@ -186,13 +197,20 @@ public class WidgetInfo implements Widget, PreProcessWidget {
             article2.setContent("文章内容");
             article2.setCreateTime(LocalDateTime.now());
             article2.setSerial(UUID.randomUUID().toString());
+            article2.setCreateTime(LocalDateTime.now());
+            article2.setAuthor("system");
+            article2.setDescription("文章描述");
+            article2.setArticleSource(ArticleSource.ORIGINAL);
+            article2.setLauds(120);
+            article2.setUnlauds(10);
+            article2.setScans(130);
             articleRepository.save(article2);
 
 //            throw new IllegalStateException("请至少添加一个数据源再使用这个控件。");
         } else {
             properties.put(SERIAL, categories.get(0).getSerial());
         }
-        properties.put(SIZE, 10);
+        properties.put(SIZE, 8);
         properties.put(TITLE, "资讯动态");
         return properties;
     }
