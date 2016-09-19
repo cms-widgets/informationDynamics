@@ -17,6 +17,7 @@ import com.huotu.hotcms.service.entity.Category;
 import com.huotu.hotcms.service.exception.PageNotFoundException;
 import com.huotu.hotcms.service.repository.ArticleRepository;
 import com.huotu.hotcms.service.repository.CategoryRepository;
+import com.huotu.hotcms.service.service.CategoryService;
 import com.huotu.hotcms.widget.CMSContext;
 import com.huotu.hotcms.widget.ComponentProperties;
 import com.huotu.hotcms.widget.PreProcessWidget;
@@ -28,6 +29,7 @@ import com.huotu.hotcms.widget.service.PageService;
 import me.jiangcai.lib.resource.service.ResourceService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -66,6 +68,8 @@ public class WidgetInfo implements Widget, PreProcessWidget {
     public static final String DATA_LIST = "dataList";
     public static final String CATEGORY = "category";
     private static final Log log = LogFactory.getLog(WidgetInfo.class);
+    @Autowired
+    private CategoryService categoryService;
 
     @Override
     public String groupId() {
@@ -153,7 +157,7 @@ public class WidgetInfo implements Widget, PreProcessWidget {
             Category category = new Category();
             category.setContentType(ContentType.Article);
             category.setName("父级");
-            category.setSerial(UUID.randomUUID().toString());
+            categoryService.init(category);
             category.setSite(CMSContext.RequestContext().getSite());
             categoryRepository.save(category);
             properties.put(SERIAL, category.getSerial());
@@ -161,7 +165,7 @@ public class WidgetInfo implements Widget, PreProcessWidget {
             Category category1 = new Category();
             category1.setContentType(ContentType.Article);
             category1.setName("子级1");
-            category1.setSerial(UUID.randomUUID().toString());
+            categoryService.init(category1);
             category1.setSite(CMSContext.RequestContext().getSite());
             category1.setParent(category);
             categoryRepository.save(category1);
@@ -169,7 +173,7 @@ public class WidgetInfo implements Widget, PreProcessWidget {
             Category category2 = new Category();
             category2.setContentType(ContentType.Article);
             category2.setName("子级2");
-            category2.setSerial(UUID.randomUUID().toString());
+            categoryService.init(category2);
             category2.setSite(CMSContext.RequestContext().getSite());
             category2.setParent(category);
             categoryRepository.save(category2);
@@ -205,8 +209,6 @@ public class WidgetInfo implements Widget, PreProcessWidget {
             article2.setUnlauds(10);
             article2.setScans(130);
             articleRepository.save(article2);
-
-//            throw new IllegalStateException("请至少添加一个数据源再使用这个控件。");
         } else {
             properties.put(SERIAL, categories.get(0).getSerial());
         }
