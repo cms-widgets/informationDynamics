@@ -18,11 +18,7 @@ import com.huotu.hotcms.service.exception.PageNotFoundException;
 import com.huotu.hotcms.service.repository.ArticleRepository;
 import com.huotu.hotcms.service.repository.CategoryRepository;
 import com.huotu.hotcms.service.service.CategoryService;
-import com.huotu.hotcms.widget.CMSContext;
-import com.huotu.hotcms.widget.ComponentProperties;
-import com.huotu.hotcms.widget.PreProcessWidget;
-import com.huotu.hotcms.widget.Widget;
-import com.huotu.hotcms.widget.WidgetStyle;
+import com.huotu.hotcms.widget.*;
 import com.huotu.hotcms.widget.entity.PageInfo;
 import com.huotu.hotcms.widget.service.CMSDataSourceService;
 import com.huotu.hotcms.widget.service.PageService;
@@ -37,11 +33,7 @@ import org.springframework.util.NumberUtils;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 
 /**
@@ -96,7 +88,7 @@ public class WidgetInfo implements Widget, PreProcessWidget {
 
     @Override
     public String dependVersion() {
-        return "1.0-SNAPSHOT";
+        return "1.1.0";
     }
 
     @Override

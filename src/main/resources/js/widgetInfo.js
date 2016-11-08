@@ -5,8 +5,7 @@ CMSWidgets.initWidget({
 // 编辑器相关
     editor: {
         saveComponent: function (onFailed) {
-            // this.properties.serial = $(".category").val();
-            // this.properties.title = $('select.category option:selected').text() + '';
+
             this.properties.size = $(".size").val();
             if (this.properties.serial == null || this.properties.serial == '' || this.properties.size == ''
                 || this.properties.size == '0') {
