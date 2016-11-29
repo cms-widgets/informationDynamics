@@ -18,18 +18,13 @@ import com.huotu.hotcms.service.exception.PageNotFoundException;
 import com.huotu.hotcms.service.repository.ArticleRepository;
 import com.huotu.hotcms.service.repository.CategoryRepository;
 import com.huotu.hotcms.service.service.CategoryService;
-import com.huotu.hotcms.widget.CMSContext;
-import com.huotu.hotcms.widget.ComponentProperties;
-import com.huotu.hotcms.widget.PreProcessWidget;
-import com.huotu.hotcms.widget.Widget;
-import com.huotu.hotcms.widget.WidgetStyle;
+import com.huotu.hotcms.widget.*;
 import com.huotu.hotcms.widget.entity.PageInfo;
 import com.huotu.hotcms.widget.service.CMSDataSourceService;
 import com.huotu.hotcms.widget.service.PageService;
 import me.jiangcai.lib.resource.service.ResourceService;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.data.domain.Page;
@@ -38,11 +33,7 @@ import org.springframework.util.NumberUtils;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 
 /**
@@ -68,8 +59,6 @@ public class WidgetInfo implements Widget, PreProcessWidget {
     public static final String DATA_LIST = "dataList";
     public static final String CATEGORY = "category";
     private static final Log log = LogFactory.getLog(WidgetInfo.class);
-    @Autowired
-    private CategoryService categoryService;
 
     @Override
     public String groupId() {
@@ -99,7 +88,7 @@ public class WidgetInfo implements Widget, PreProcessWidget {
 
     @Override
     public String dependVersion() {
-        return "1.0-SNAPSHOT";
+        return "1.1.0";
     }
 
     @Override
@@ -148,6 +137,9 @@ public class WidgetInfo implements Widget, PreProcessWidget {
         // 随意找一个数据源,如果没有。那就没有。。
         CMSDataSourceService cmsDataSourceService = CMSContext.RequestContext().getWebApplicationContext()
                 .getBean(CMSDataSourceService.class);
+        CategoryService categoryService = CMSContext.RequestContext().getWebApplicationContext()
+                .getBean(CategoryService.class);
+
         List<Category> categories = cmsDataSourceService.findArticleCategory();
         if (categories.isEmpty()) {
             CategoryRepository categoryRepository = CMSContext.RequestContext().getWebApplicationContext()
@@ -227,7 +219,7 @@ public class WidgetInfo implements Widget, PreProcessWidget {
         //1、取context参数pageNum,serial
         String serial = (String) properties.get(WidgetInfo.SERIAL);
 
-        //2、取数据源列表
+        //2、取子数据源列表
         List<Category> dataSources = cmsDataSourceService.findByParent_Serial(serial);
         variables.put(DATA_SOURCE, dataSources); //数据源列表
         if (dataSources != null && !dataSources.isEmpty()) {

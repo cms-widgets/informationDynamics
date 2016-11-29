@@ -4,11 +4,8 @@
         <div class="form-group clearfix">
             <label class="col-sm-3 control-label">文章数据源：</label>
             <div class="col-sm-3">
-                <select class="form-control select-list category" name="categoryId">
-                    <option th:each="category:${@cmsDataSourceService.findArticleCategory()}"
-                            th:value="${category.serial}" th:text="${category.name}">
-                    </option>
-                </select>
+                <span data-name="serial" class="article-category"></span>
+
             </div>
             <label class="col-sm-3 control-label">展示条数：</label>
             <div class="col-sm-3">
