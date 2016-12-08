@@ -218,9 +218,11 @@ public class WidgetInfo implements Widget, PreProcessWidget {
                 .getBean("cmsDataSourceService", CMSDataSourceService.class);
         //1、取context参数pageNum,serial
         String serial = (String) properties.get(WidgetInfo.SERIAL);
+        Category parentCategory = categoryRepository.findBySerialAndSite(serial, CMSContext.RequestContext().getSite());
+        variables.put("parentCategory", parentCategory);
 
         //2、取子数据源列表
-        List<Category> dataSources = cmsDataSourceService.findByParent_Serial(serial);
+        List<Category> dataSources = categoryRepository.findByParent_SerialAndDeletedFalse(serial);
         variables.put(DATA_SOURCE, dataSources); //数据源列表
         if (dataSources != null && !dataSources.isEmpty()) {
 
@@ -255,8 +257,8 @@ public class WidgetInfo implements Widget, PreProcessWidget {
                 variables.put("contentURI", contentPage.getPagePath());
             } else {
                 try {
-                    PageInfo contentPage = CMSContext.RequestContext().getWebApplicationContext().getBean(PageService.class)
-                            .getClosestContentPage(category, (String) variables.get("uri"));
+                    PageInfo contentPage = getCMSServiceFromCMSContext(PageService.class)
+                            .getClosestContentPage(category, null, PageType.DataContent);
                     variables.put("contentURI", contentPage.getPagePath());
                 } catch (PageNotFoundException e) {
                     log.warn("...", e);
@@ -268,10 +270,5 @@ public class WidgetInfo implements Widget, PreProcessWidget {
             variables.put(CATEGORY, category);//当前选择的数据源
         } else
             variables.put(DATA_LIST, null);
-    }
-
-    @Override
-    public PageType supportedPageType() {
-        return PageType.Ordinary;
     }
 }
