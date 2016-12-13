@@ -1,0 +1,26 @@
+/*左侧 类active 背景颜色 mainColor 默认空即可*/
+.information-dynamics .information-list-left-body .active a {
+    background-color: #ba0006;
+}
+/*golden 样式 active mainColor 默认空即可*/
+.information-list-golden .information-list-left-body .active a::before {
+    background:  #d5975c;
+}
+/*防止重写 不用修改*/
+.information-list-golden .information-list-left-body .active a {
+    background-color: #fff;
+}
+/*顶部 类active 背景颜色 mainColor 默认空即可*/
+.information-dynamics .product-list-top li.active {
+    background: #ba0006;
+    border: 1px solid #ba0006;
+}
+/*分页菜单 a 字体颜色 mainColor 默认空*/
+.information-dynamics .information-list-bottom  li a {
+    color: #000;
+}
+/*分页菜单 类active 样式 mainColor 默认空即可*/
+.information-dynamics .information-list-bottom .active {
+    background-color: #e50011;
+    border-color: #e50011;
+}

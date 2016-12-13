@@ -2,12 +2,12 @@
 <!--/*@thymesVar id="dataSources" type="java.util.List<com.huotu.hotcms.service.entity.Category>"*/-->
 <!--/*@thymesVar id="uri" type="java.lang.String"*/-->
 <!--/*@thymesVar id="dataList" type="org.springframework.data.domain.Page<com.huotu.hotcms.service.entity.AbstractContent>"*/-->
-<div xmlns:th="http://www.thymeleaf.org" class="information-list information-list-red">
+<div xmlns:th="http://www.thymeleaf.org" class="information-list information-list-red information-dynamics">
     <div class="row">
         <div class="col-sm-12 col-md-3">
             <div class="information-list-left-header">
                 <h2 th:text="${parentCategory!=null?parentCategory.name:'资讯动态'}">资讯动态</h2>
-                <a href="javascript:;" class="news-list-more visible-xs visible-sm">More</a>
+                <a href="javascript:;" class="information-list-more visible-xs visible-sm">More</a>
             </div>
             <ul class="list-unstyled information-list-left-body">
                 <li th:each="cate:${dataSources}" th:class="${cate.serial==category.serial}?'active' :''">
