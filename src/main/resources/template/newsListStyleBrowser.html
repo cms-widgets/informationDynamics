@@ -1,0 +1,69 @@
+<div xmlns:th="http://www.thymeleaf.org" class="information-list information-list-red information-dynamics">
+    <div class="row">
+        <div class="col-sm-12 col-md-3">
+            <div class="information-list-left-header">
+                <h2 th:text="${parentCategory!=null?parentCategory.name:'资讯动态'}">资讯动态</h2>
+                <a href="javascript:;" class="information-list-more visible-xs visible-sm">More</a>
+            </div>
+            <ul class="list-unstyled information-list-left-body">
+                <li th:each="cate:${dataSources}" th:class="${cate.serial==category.serial}?'active' :''">
+                    <a th:href="@{/${uri}(cid=${cate.id})}">
+                        <span th:text="${cate.name}">数据源1</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="col-sm-12 col-md-9 information-list-right">
+            <div class="information-list-right-header">
+                <h3>全部列表</h3>
+            </div>
+            <!--更新部分-->
+            <div class="row">
+                <div class="col-sm-3">
+                    <a href="javascript:;">
+                        <img class="img-responsive center-block img-thumbnail" src="http://placehold.it/300x300/d5975c/ffffff?text=1">
+                    </a>
+                </div>
+                <div class="col-sm-3">
+                    <a href="javascript:;">
+                        <img class="img-responsive center-block img-thumbnail" src="http://placehold.it/300x300/d5975c/ffffff?text=2">
+                    </a>
+                </div>
+                <div class="col-sm-3">
+                    <a href="javascript:;">
+                        <img class="img-responsive center-block img-thumbnail" src="http://placehold.it/300x300/d5975c/ffffff?text=3">
+                    </a>
+                </div>
+                <div class="col-sm-3">
+                    <a href="javascript:;">
+                        <img class="img-responsive center-block img-thumbnail" src="http://placehold.it/300x300/d5975c/ffffff?text=4">
+                    </a>
+                </div>
+                <!--更新部分-->
+            </div>
+        </div>
+        <div class="col-sm-12 information-list-bottom">
+            <ul class="pagination" th:if="${dataList!=null}">
+                <li class="prev" th:if="${dataList.hasPrevious()}">
+                    <a rel="prev" th:href="@{/${uri}(cid=${category.id},pageNum=${dataList.getNumber()-1})}">上一页</a>
+                </li>
+                <li th:if="${ dataList.getNumber()+2<dataList.getTotalPages() and dataList.getNumber()>2 and dataList.getNumber()>5}">
+                    <a th:text="${dataList.getNumber()-2}"></a>
+                    <a th:text="${dataList.getNumber()-1}">2</a>
+                    <a class="active" href="javascript:void(0);" th:text="${dataList.getNumber()}">3</a>
+                    <a th:text="${dataList.getNumber()+1}">4</a>
+                    <a th:text="${dataList.getNumber()+2}">5</a>
+                </li>
+                <li th:if="${dataList.getTotalPages()<5}">
+                    <a th:class="${dataList.getNumber()==pageNumber}?'active':''"
+                       th:each="index:${dataList.getTotalPages()}"
+                       th:href="@{/${uri}(cid=${category.id},pageNum=${index})}"
+                       th:text="${index}">
+                    </a>
+                </li>
+                <li class="next"><a rel="next" href="#" th:if="${dataList.hasNext()}" th:href="@{/${uri}(cid=${category.id},pageNum=${dataList.getNumber()+1})}">下一页</a></li>
+                <li class="total"><a href="javascript:void(0);" th:text="'共'+${dataList.getTotalPages()}+'页'">共1页</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
