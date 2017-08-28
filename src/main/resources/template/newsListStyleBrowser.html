@@ -25,33 +25,14 @@
             <div class="information-list-right-header">
                 <h3>全部列表</h3>
             </div>
-            <!--更新部分-->
             <div class="row">
-                <div class="col-sm-3" th:each="article:${dataList}">
+                <div class="col-sm-3 information-image-list" th:each="article:${dataList}">
                     <a href="javascript:;" th:href="@{/${contentURI}/{contentSerial}(contentSerial=${article.serial})}">
                         <img class="img-responsive center-block img-thumbnail" res:src="${article.thumbUri}"
                              src="http://placehold.it/300x300/d5975c/ffffff?text=1">
+                        <p class="text-center information-image-text">全部列表</p>
                     </a>
                 </div>
-                <div class="col-sm-3" th:remove="all">
-                    <a href="javascript:;">
-                        <img class="img-responsive center-block img-thumbnail"
-                             src="http://placehold.it/300x300/d5975c/ffffff?text=2">
-                    </a>
-                </div>
-                <div class="col-sm-3" th:remove="all">
-                    <a href="javascript:;">
-                        <img class="img-responsive center-block img-thumbnail"
-                             src="http://placehold.it/300x300/d5975c/ffffff?text=3">
-                    </a>
-                </div>
-                <div class="col-sm-3" th:remove="all">
-                    <a href="javascript:;">
-                        <img class="img-responsive center-block img-thumbnail"
-                             src="http://placehold.it/300x300/d5975c/ffffff?text=4">
-                    </a>
-                </div>
-                <!--更新部分-->
             </div>
         </div>
         <div class="col-sm-12 information-list-bottom">
