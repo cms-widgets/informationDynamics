@@ -30,7 +30,7 @@
                     <a href="javascript:;" th:href="@{/${contentURI}/{contentSerial}(contentSerial=${article.serial})}">
                         <img class="img-responsive center-block img-thumbnail" res:src="${article.thumbUri}"
                              src="http://placehold.it/300x300/d5975c/ffffff?text=1">
-                        <p class="text-center information-image-text">全部列表</p>
+                        <p class="text-center information-image-text" th:text="${article.title}">全部列表</p>
                     </a>
                 </div>
             </div>
