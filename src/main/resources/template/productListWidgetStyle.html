@@ -30,24 +30,25 @@
     <div class="information-list-bottom">
         <ul class="pagination" th:if="${dataList!=null}">
             <li class="prev" th:if="${dataList.hasPrevious()}">
-                <a rel="prev" th:href="@{/${uri}(cid=${category.id},pageNum=${dataList.getNumber()-1})}">上一页</a>
+                <a rel="prev" th:href="@{/${uri}(cid=${category.id},pageNum=${dataList.getNumber()})}">上一页</a>
             </li>
-            <li th:if="${ dataList.getNumber()+2<dataList.getTotalPages() and dataList.getNumber()>2 and dataList.getNumber()>5}">
-                <a th:text="${dataList.getNumber()-2}"></a>
-                <a th:text="${dataList.getNumber()-1}">2</a>
-                <a class="active" href="javascript:void(0);" th:text="${dataList.getNumber()}">3</a>
-                <a th:text="${dataList.getNumber()+1}">4</a>
-                <a th:text="${dataList.getNumber()+2}">5</a>
-            </li>
-            <li th:if="${dataList.getTotalPages()<5}">
-                <a th:class="${dataList.getNumber()==pageNumber}?'active':''"
-                   th:each="index:${dataList.getTotalPages()}"
-                   th:href="@{/${uri}(cid=${category.id},pageNum=${index})}"
-                   th:text="${index}">
+            <!--<li th:if="${ dataList.getNumber()+2<dataList.getTotalPages() and dataList.getNumber()>1}">
+                <a th:text="${dataList.getNumber()-1}"></a>
+                <a th:text="${dataList.getNumber()}">2</a>
+                <a class="active" href="javascript:void(0);" th:text="${dataList.getNumber()+1}">3</a>
+                <a th:text="${dataList.getNumber()+2}">4</a>
+                <a th:text="${dataList.getNumber()+3}">5</a>
+            </li>-->
+            <li>
+                <a th:each="sliceInfo:${#numbers.sequence(-2,2)}"
+                   th:if="${dataList.getNumber()+sliceInfo>=0 && dataList.getNumber()+sliceInfo<dataList.getTotalPages()}"
+                   th:class="${dataList.getNumber()+sliceInfo+1==pageNumber}?'active':''"
+                   th:href="@{/${uri}(cid=${category.id},pageNum=${dataList.getNumber()+sliceInfo+1})}"
+                   th:text="${dataList.getNumber()+sliceInfo+1}">
                 </a>
             </li>
             <li class="next"><a rel="next" href="#" th:if="${dataList.hasNext()}"
-                                th:href="@{/${uri}(cid=${category.id},pageNum=${dataList.getNumber()+1})}">下一页</a>
+                                th:href="@{/${uri}(cid=${category.id},pageNum=${dataList.getNumber()+2})}">下一页</a>
             </li>
             <li class="total"><a href="javascript:void(0);" th:text="'共'+${dataList.getTotalPages()}+'页'">共1页</a>
             </li>
