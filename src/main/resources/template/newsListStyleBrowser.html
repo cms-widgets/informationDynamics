@@ -1,4 +1,12 @@
-<div xmlns:th="http://www.thymeleaf.org" class="information-list information-list-red information-dynamics">
+<div xmlns:th="http://www.thymeleaf.org" xmlns:res="http://resource.jiangcai.me"
+     class="information-list information-list-red information-dynamics">
+    <!--/*@thymesVar id="dataSources" type="java.util.List<com.huotu.hotcms.service.entity.Category>"*/-->
+    <!--/*@thymesVar id="uri" type="java.lang.String"*/-->
+    <!--/*@thymesVar id="dataList" type="org.springframework.data.domain.Page<com.huotu.hotcms.service.entity.AbstractContent>"*/-->
+    <!--/*@thymesVar id="category" type="com.huotu.hotcms.service.entity.Category"*/-->
+    <!--/*@thymesVar id="parentCategory" type="com.huotu.hotcms.service.entity.Category"*/-->
+    <!--/*@thymesVar id="pageNumber" type="int"*/-->
+    <!--/*@thymesVar id="contentURI" type="java.lang.String"*/-->
     <div class="row">
         <div class="col-sm-12 col-md-3">
             <div class="information-list-left-header">
@@ -17,29 +25,14 @@
             <div class="information-list-right-header">
                 <h3>全部列表</h3>
             </div>
-            <!--更新部分-->
             <div class="row">
-                <div class="col-sm-3">
-                    <a href="javascript:;">
-                        <img class="img-responsive center-block img-thumbnail" src="http://placehold.it/300x300/d5975c/ffffff?text=1">
+                <div class="col-sm-3 information-image-list" th:each="article:${dataList}">
+                    <a href="javascript:;" th:href="@{/${contentURI}/{contentSerial}(contentSerial=${article.serial})}">
+                        <img class="img-responsive center-block img-thumbnail" res:src="${article.thumbUri}"
+                             src="http://placehold.it/300x300/d5975c/ffffff?text=1">
+                        <p class="text-center information-image-text" th:text="${article.title}">全部列表</p>
                     </a>
                 </div>
-                <div class="col-sm-3">
-                    <a href="javascript:;">
-                        <img class="img-responsive center-block img-thumbnail" src="http://placehold.it/300x300/d5975c/ffffff?text=2">
-                    </a>
-                </div>
-                <div class="col-sm-3">
-                    <a href="javascript:;">
-                        <img class="img-responsive center-block img-thumbnail" src="http://placehold.it/300x300/d5975c/ffffff?text=3">
-                    </a>
-                </div>
-                <div class="col-sm-3">
-                    <a href="javascript:;">
-                        <img class="img-responsive center-block img-thumbnail" src="http://placehold.it/300x300/d5975c/ffffff?text=4">
-                    </a>
-                </div>
-                <!--更新部分-->
             </div>
         </div>
         <div class="col-sm-12 information-list-bottom">
@@ -61,8 +54,11 @@
                        th:text="${index}">
                     </a>
                 </li>
-                <li class="next"><a rel="next" href="#" th:if="${dataList.hasNext()}" th:href="@{/${uri}(cid=${category.id},pageNum=${dataList.getNumber()+1})}">下一页</a></li>
-                <li class="total"><a href="javascript:void(0);" th:text="'共'+${dataList.getTotalPages()}+'页'">共1页</a></li>
+                <li class="next"><a rel="next" href="#" th:if="${dataList.hasNext()}"
+                                    th:href="@{/${uri}(cid=${category.id},pageNum=${dataList.getNumber()+1})}">下一页</a>
+                </li>
+                <li class="total"><a href="javascript:void(0);" th:text="'共'+${dataList.getTotalPages()}+'页'">共1页</a>
+                </li>
             </ul>
         </div>
     </div>
